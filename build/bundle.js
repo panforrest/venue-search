@@ -9709,7 +9709,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Nav);
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -9740,63 +9740,67 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 //SO STUPID TO FORGET THIS LINE
 
 var Venues = function (_Component) {
-  _inherits(Venues, _Component);
+	_inherits(Venues, _Component);
 
-  function Venues() {
-    _classCallCheck(this, Venues);
+	function Venues() {
+		_classCallCheck(this, Venues);
 
-    return _possibleConstructorReturn(this, (Venues.__proto__ || Object.getPrototypeOf(Venues)).apply(this, arguments));
-  }
+		return _possibleConstructorReturn(this, (Venues.__proto__ || Object.getPrototypeOf(Venues)).apply(this, arguments));
+	}
 
-  _createClass(Venues, [{
-    key: 'render',
-    value: function render() {
-      var venues = this.props.venues || [];
+	_createClass(Venues, [{
+		key: 'render',
+		value: function render() {
+			var venues = this.props.venues || [];
 
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'ol',
-          null,
-          venues.map(function (venue, i) {
-            return _react2.default.createElement(
-              'li',
-              { key: venue.id },
-              _react2.default.createElement(
-                'div',
-                { style: { padding: 12, marginBottom: 16 } },
-                _react2.default.createElement(
-                  'h4',
-                  { style: { marginBottom: 0 } },
-                  venue.name
-                ),
-                _react2.default.createElement(
-                  'span',
-                  null,
-                  venue.location.address
-                ),
-                _react2.default.createElement('br', null),
-                _react2.default.createElement(
-                  'a',
-                  { href: venue.url },
-                  venue.url
-                )
-              )
-            );
-          })
-        )
-      );
-    }
-  }]);
+			return _react2.default.createElement(
+				'div',
+				{ className: 'row' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'col-md-6 col-md-offset-6' },
+					_react2.default.createElement(
+						'ol',
+						null,
+						venues.map(function (venue, i) {
+							return _react2.default.createElement(
+								'li',
+								{ key: venue.id },
+								_react2.default.createElement(
+									'div',
+									{ style: { padding: 12, marginBottom: 12, background: '#f9f9f9' } },
+									_react2.default.createElement(
+										'h4',
+										{ style: { marginBottom: 0 } },
+										venue.name
+									),
+									_react2.default.createElement(
+										'span',
+										null,
+										venue.location.address
+									),
+									_react2.default.createElement('br', null),
+									_react2.default.createElement(
+										'a',
+										{ href: venue.url },
+										venue.url
+									)
+								)
+							);
+						})
+					)
+				)
+			);
+		}
+	}]);
 
-  return Venues;
+	return Venues;
 }(_react.Component);
 
 var stateToProps = function stateToProps(state) {
-  return {
-    venues: state.venue.venues
-  };
+	return {
+		venues: state.venue.venues
+	};
 };
 
 exports.default = (0, _reactRedux.connect)(stateToProps)(Venues);
