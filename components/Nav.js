@@ -1,5 +1,22 @@
+// const stateToProps = (state) => {
+// 	return {
+//         venues: state.venue.venues
+// 	}
+// }
+
+// const dispatchToProps = (dispatch) => {
+// 	return {
+//         venuesReceived: (venues) => dispatch(actions.venuesReceived(venues))
+// 	}
+// }
+
+// export default connect(stateToProps, dispatchToProps)(Nav)
+
 import React, { Component } from 'react'
 import superagent from 'superagent'
+import store from '../stores'
+import actions from '../actions'
+import { connect } from 'react-redux'
 
 class Nav extends Component {
     constructor(){
@@ -27,7 +44,8 @@ class Nav extends Component {
     	.set('Accept', 'text/json')    //.set('Accept', 'application/json')
     	.end((err, response) => {
     		const venues = response.body.response.venues
-    		console.log('RESPONSE: '+JSON.stringify(venues))
+    		// console.log('RESPONSE: '+JSON.stringify(venues))
+    		this.props.venuesReceived(venues)
     	})
     }
 
@@ -52,4 +70,16 @@ class Nav extends Component {
 	}
 }
 
-export default Nav
+const stateToProps = (state) => {
+	return {
+        venues: state.venue.venues
+	}
+}
+
+const dispatchToProps = (dispatch) => {
+	return {
+        venuesReceived: (venues) => dispatch(actions.venuesReceived(venues))
+	}
+}
+
+export default connect(stateToProps, dispatchToProps)(Nav)

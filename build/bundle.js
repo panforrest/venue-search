@@ -9539,13 +9539,35 @@ var _superagent = __webpack_require__(182);
 
 var _superagent2 = _interopRequireDefault(_superagent);
 
+var _stores = __webpack_require__(228);
+
+var _stores2 = _interopRequireDefault(_stores);
+
+var _actions = __webpack_require__(233);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _reactRedux = __webpack_require__(200);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // const stateToProps = (state) => {
+// 	return {
+//         venues: state.venue.venues
+// 	}
+// }
+
+// const dispatchToProps = (dispatch) => {
+// 	return {
+//         venuesReceived: (venues) => dispatch(actions.venuesReceived(venues))
+// 	}
+// }
+
+// export default connect(stateToProps, dispatchToProps)(Nav)
 
 var Nav = function (_Component) {
   _inherits(Nav, _Component);
@@ -9564,6 +9586,8 @@ var Nav = function (_Component) {
   _createClass(Nav, [{
     key: 'searchVenues',
     value: function searchVenues() {
+      var _this2 = this;
+
       console.log('searchVenues: ' + this.state.zipCode);
 
       var url = 'https://api.foursquare.com/v2/venues/search';
@@ -9578,7 +9602,8 @@ var Nav = function (_Component) {
       _superagent2.default.get(url).query(params).set('Accept', 'text/json') //.set('Accept', 'application/json')
       .end(function (err, response) {
         var venues = response.body.response.venues;
-        console.log('RESPONSE: ' + JSON.stringify(venues));
+        // console.log('RESPONSE: '+JSON.stringify(venues))
+        _this2.props.venuesReceived(venues);
       });
     }
   }, {
@@ -9612,7 +9637,21 @@ var Nav = function (_Component) {
   return Nav;
 }(_react.Component);
 
-exports.default = Nav;
+var stateToProps = function stateToProps(state) {
+  return {
+    venues: state.venue.venues
+  };
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+  return {
+    venuesReceived: function venuesReceived(venues) {
+      return dispatch(_actions2.default.venuesReceived(venues));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Nav);
 
 /***/ }),
 /* 84 */
@@ -9631,13 +9670,26 @@ var _react = __webpack_require__(31);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(200);
+
+var _actions = __webpack_require__(233);
+
+var _actions2 = _interopRequireDefault(_actions);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // venues: state.venue   //    WRONG    venue: state.venues
+// const dispatchToProps = (dispatch) => {
+// 	return {
+//         venuesReceived: (venues) => dispatch(actions.venuesReceived(venues))
+// 	}
+// }
+
+//SO STUPID TO FORGET THIS LINE
 
 var Venues = function (_Component) {
 	_inherits(Venues, _Component);
@@ -9651,27 +9703,21 @@ var Venues = function (_Component) {
 	_createClass(Venues, [{
 		key: 'render',
 		value: function render() {
+			var venues = this.props.venues || [];
+
 			return _react2.default.createElement(
 				'div',
 				null,
 				_react2.default.createElement(
 					'ol',
 					null,
-					_react2.default.createElement(
-						'li',
-						null,
-						'Venue 1'
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						'Venue 2'
-					),
-					_react2.default.createElement(
-						'li',
-						null,
-						'Venue 3'
-					)
+					venues.map(function (venue, i) {
+						return _react2.default.createElement(
+							'li',
+							{ key: venue.id },
+							venue.name
+						);
+					})
 				)
 			);
 		}
@@ -9680,7 +9726,13 @@ var Venues = function (_Component) {
 	return Venues;
 }(_react.Component);
 
-exports.default = Venues;
+var stateToProps = function stateToProps(state) {
+	return {
+		venues: state.venue.venues
+	};
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps)(Venues);
 
 /***/ }),
 /* 85 */
@@ -26667,6 +26719,36 @@ exports.default = { //module.exports = {
 
     VENUES_RECEIVED: 'VENUES_RECEIVED'
 
+};
+
+/***/ }),
+/* 233 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _constants = __webpack_require__(232);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+	// return venuesReceived: (venues) => {
+	//        type: constants.VENUES_RECEICED,
+	//        venues: venues
+	// }
+	venuesReceived: function venuesReceived(venues) {
+		return {
+			type: _constants2.default.VENUES_RECEIVED,
+			venues: venues
+		};
+	}
 };
 
 /***/ })
