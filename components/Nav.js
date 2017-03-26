@@ -12,21 +12,22 @@ class Nav extends Component {
     searchVenues(){
     	console.log('searchVenues: '+this.state.zipCode)
 
-		const url = 'https://api.foursquare.com/v2/venues/search?v=20140806&ll=-33.8670,151.1957&client_id=VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD&client_secret=UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ'
+		const url = 'https://api.foursquare.com/v2/venues/search'
 
-		// const params = {
-		// 	v: '20140806',
-		// 	ll: '-33.8670,151.1957',
-		// 	client_id: 'VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD',
-		// 	client_secret: 'UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ'
-		// }
+		const params = {
+			v: '20140806',
+			ll: '-33.8670,151.1957',
+			client_id: 'VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD',
+			client_secret: 'UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ'
+		}
 
     	superagent
     	.get(url)
-    	.query(null)
+    	.query(params)
     	.set('Accept', 'text/json')    //.set('Accept', 'application/json')
     	.end((err, response) => {
-    		console.log('RESPONSE: '+JSON.stringify(response))
+    		const venues = response.body.response.venues
+    		console.log('RESPONSE: '+JSON.stringify(venues))
     	})
     }
 
@@ -35,7 +36,7 @@ class Nav extends Component {
         // updatedZip[event.target.id] = event.target.value
         // var zip = updatedZip.zip
 
-        console.log(event.target.value)
+        // console.log(event.target.value)
         this.setState({
             zipCode: event.target.value    
         })        

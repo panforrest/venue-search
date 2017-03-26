@@ -21842,7 +21842,7 @@ exports.Venues = _Venues2.default;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21864,67 +21864,68 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Nav = function (_Component) {
-    _inherits(Nav, _Component);
+  _inherits(Nav, _Component);
 
-    function Nav() {
-        _classCallCheck(this, Nav);
+  function Nav() {
+    _classCallCheck(this, Nav);
 
-        var _this = _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this));
+    var _this = _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this));
 
-        _this.state = {
-            zipCode: '' // zip: {}
-        };
-        return _this;
+    _this.state = {
+      zipCode: '' // zip: {}
+    };
+    return _this;
+  }
+
+  _createClass(Nav, [{
+    key: 'searchVenues',
+    value: function searchVenues() {
+      console.log('searchVenues: ' + this.state.zipCode);
+
+      var url = 'https://api.foursquare.com/v2/venues/search';
+
+      var params = {
+        v: '20140806',
+        ll: '-33.8670,151.1957',
+        client_id: 'VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD',
+        client_secret: 'UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ'
+      };
+
+      _superagent2.default.get(url).query(params).set('Accept', 'text/json') //.set('Accept', 'application/json')
+      .end(function (err, response) {
+        var venues = response.body.response.venues;
+        console.log('RESPONSE: ' + JSON.stringify(venues));
+      });
     }
+  }, {
+    key: 'updateZipCode',
+    value: function updateZipCode(event) {
+      // var updatedZip = Object.assign({}, this.state)
+      // updatedZip[event.target.id] = event.target.value
+      // var zip = updatedZip.zip
 
-    _createClass(Nav, [{
-        key: 'searchVenues',
-        value: function searchVenues() {
-            console.log('searchVenues: ' + this.state.zipCode);
+      // console.log(event.target.value)
+      this.setState({
+        zipCode: event.target.value
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement('input', { onChange: this.updateZipCode.bind(this), type: 'text', placeholder: 'Zip code' }),
+        _react2.default.createElement(
+          'button',
+          { onClick: this.searchVenues.bind(this) },
+          'Search'
+        )
+      );
+    }
+  }]);
 
-            var url = 'https://api.foursquare.com/v2/venues/search?v=20140806&ll=-33.8670,151.1957&client_id=VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD&client_secret=UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ';
-
-            // const params = {
-            // 	v: '20140806',
-            // 	ll: '-33.8670,151.1957',
-            // 	client_id: 'VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD',
-            // 	client_secret: 'UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ'
-            // }
-
-            _superagent2.default.get(url).query(null).set('Accept', 'text/json') //.set('Accept', 'application/json')
-            .end(function (err, response) {
-                console.log('RESPONSE: ' + JSON.stringify(response));
-            });
-        }
-    }, {
-        key: 'updateZipCode',
-        value: function updateZipCode(event) {
-            // var updatedZip = Object.assign({}, this.state)
-            // updatedZip[event.target.id] = event.target.value
-            // var zip = updatedZip.zip
-
-            console.log(event.target.value);
-            this.setState({
-                zipCode: event.target.value
-            });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement('input', { onChange: this.updateZipCode.bind(this), type: 'text', placeholder: 'Zip code' }),
-                _react2.default.createElement(
-                    'button',
-                    { onClick: this.searchVenues.bind(this) },
-                    'Search'
-                )
-            );
-        }
-    }]);
-
-    return Nav;
+  return Nav;
 }(_react.Component);
 
 exports.default = Nav;
