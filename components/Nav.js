@@ -26,7 +26,9 @@ class Nav extends Component {
     	}
     }
 
-    searchVenues(){
+    searchVenues(event){
+    	event.preventDefault()
+
     	console.log('searchVenues: '+this.state.zipCode)
 
 		const url = 'https://api.foursquare.com/v2/venues/search'
@@ -62,10 +64,21 @@ class Nav extends Component {
 
 	render(){
 		return(
-			<div>
-			    <input onChange={this.updateZipCode.bind(this)} type="text" placeholder="Zip code" />
-			    <button onClick={this.searchVenues.bind(this)}>Search</button>
-			</div>
+			
+			<nav className="navbar navbar-default">
+			  <div className="container-fluid">
+			    <div className="navbar-header">
+	                <form className="navbar-form navbar-left" role="search">
+					  <div className="form-group">
+					    
+					    <input onChange={this.updateZipCode.bind(this)} className="form-control" type="text" placeholder="Zip code" />
+					  </div>
+					  <button style={{marginLeft:2}} onClick={this.searchVenues.bind(this)} className="btn btn-default">Search</button>						  
+					</form>
+			    </div>
+			  </div>
+			</nav>				
+            		
 		)
 	}
 }

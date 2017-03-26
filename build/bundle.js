@@ -9585,8 +9585,10 @@ var Nav = function (_Component) {
 
   _createClass(Nav, [{
     key: 'searchVenues',
-    value: function searchVenues() {
+    value: function searchVenues(event) {
       var _this2 = this;
+
+      event.preventDefault();
 
       console.log('searchVenues: ' + this.state.zipCode);
 
@@ -9622,13 +9624,29 @@ var Nav = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement('input', { onChange: this.updateZipCode.bind(this), type: 'text', placeholder: 'Zip code' }),
+        'nav',
+        { className: 'navbar navbar-default' },
         _react2.default.createElement(
-          'button',
-          { onClick: this.searchVenues.bind(this) },
-          'Search'
+          'div',
+          { className: 'container-fluid' },
+          _react2.default.createElement(
+            'div',
+            { className: 'navbar-header' },
+            _react2.default.createElement(
+              'form',
+              { className: 'navbar-form navbar-left', role: 'search' },
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group' },
+                _react2.default.createElement('input', { onChange: this.updateZipCode.bind(this), className: 'form-control', type: 'text', placeholder: 'Zip code' })
+              ),
+              _react2.default.createElement(
+                'button',
+                { style: { marginLeft: 2 }, onClick: this.searchVenues.bind(this), className: 'btn btn-default' },
+                'Search'
+              )
+            )
+          )
         )
       );
     }
