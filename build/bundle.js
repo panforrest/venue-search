@@ -9526,7 +9526,7 @@ module.exports = __webpack_require__(113);
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -9570,104 +9570,109 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // export default connect(stateToProps, dispatchToProps)(Nav)
 
 var Nav = function (_Component) {
-  _inherits(Nav, _Component);
+	_inherits(Nav, _Component);
 
-  function Nav() {
-    _classCallCheck(this, Nav);
+	function Nav() {
+		_classCallCheck(this, Nav);
 
-    var _this = _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this));
+		var _this = _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this));
 
-    _this.state = {
-      zipCode: '' // zip: {}
-    };
-    return _this;
-  }
+		_this.state = {
+			updatedSearch: {
+				zipCode: '',
+				type: '' // zip: {}
+			}
+		};
+		return _this;
+	}
 
-  _createClass(Nav, [{
-    key: 'searchVenues',
-    value: function searchVenues(event) {
-      var _this2 = this;
+	_createClass(Nav, [{
+		key: 'searchVenues',
+		value: function searchVenues(event) {
+			var _this2 = this;
 
-      event.preventDefault();
+			event.preventDefault();
 
-      console.log('searchVenues: ' + this.state.zipCode);
+			console.log('searchVenues: ' + this.state.zipCode);
 
-      var url = 'https://api.foursquare.com/v2/venues/search';
+			var url = 'https://api.foursquare.com/v2/venues/search';
 
-      var params = {
-        v: '20140806',
-        near: this.state.zipCode, //zip code, new york, chicago
-        client_id: 'VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD',
-        client_secret: 'UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ',
-        query: 'coffee'
-      };
+			var params = {
+				v: '20140806',
+				near: this.state.updatedSearch.zipCode, //zip code, new york, chicago
+				client_id: 'VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD',
+				client_secret: 'UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ',
+				query: this.state.updatedSearch.type //query: 'coffee'
+			};
 
-      _superagent2.default.get(url).query(params).set('Accept', 'text/json') //.set('Accept', 'application/json')
-      .end(function (err, response) {
-        var venues = response.body.response.venues;
-        // console.log('RESPONSE: '+JSON.stringify(venues))
-        _this2.props.venuesReceived(venues);
-      });
-    }
-  }, {
-    key: 'updateZipCode',
-    value: function updateZipCode(event) {
-      // var updatedZip = Object.assign({}, this.state)
-      // updatedZip[event.target.id] = event.target.value
-      // var zip = updatedZip.zip
+			_superagent2.default.get(url).query(params).set('Accept', 'text/json') //.set('Accept', 'application/json')
+			.end(function (err, response) {
+				var venues = response.body.response.venues;
+				// console.log('RESPONSE: '+JSON.stringify(venues))
+				_this2.props.venuesReceived(venues);
+			});
+		}
+	}, {
+		key: 'update',
+		value: function update(event) {
+			var updated = Object.assign({}, this.state.updatedSearch); //ONLY MISTAKE: Object.assign({}, this.state)
+			updated[event.target.id] = event.target.value;
+			// var zip = updated
 
-      // console.log(event.target.value)
-      this.setState({
-        zipCode: event.target.value
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'nav',
-        { className: 'navbar navbar-default' },
-        _react2.default.createElement(
-          'div',
-          { className: 'container-fluid' },
-          _react2.default.createElement(
-            'div',
-            { className: 'navbar-header' },
-            _react2.default.createElement(
-              'form',
-              { className: 'navbar-form navbar-left', role: 'search' },
-              _react2.default.createElement(
-                'div',
-                { className: 'form-group' },
-                _react2.default.createElement('input', { onChange: this.updateZipCode.bind(this), className: 'form-control', type: 'text', placeholder: 'Zip code' })
-              ),
-              _react2.default.createElement(
-                'button',
-                { style: { marginLeft: 2 }, onClick: this.searchVenues.bind(this), className: 'btn btn-default' },
-                'Search'
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
+			// console.log(event.target.value)
+			this.setState({
+				updatedSearch: updated
+			});
+			console.log('update: ' + JSON.stringify(this.state.updatedSearch));
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'nav',
+				{ className: 'navbar navbar-default' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'container-fluid' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'navbar-header' },
+						_react2.default.createElement(
+							'form',
+							{ className: 'navbar-form navbar-left', role: 'search' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'form-group' },
+								_react2.default.createElement('input', { onChange: this.update.bind(this), id: 'zipCode', className: 'form-control', type: 'text', placeholder: 'Zip code' }),
+								_react2.default.createElement('input', { onChange: this.update.bind(this), id: 'type', className: 'form-control', type: 'text', placeholder: 'Type' })
+							),
+							_react2.default.createElement(
+								'button',
+								{ style: { marginLeft: 2 }, onClick: this.searchVenues.bind(this), className: 'btn btn-default' },
+								'Search'
+							)
+						)
+					)
+				)
+			);
+		}
+	}]);
 
-  return Nav;
+	return Nav;
 }(_react.Component);
 
 var stateToProps = function stateToProps(state) {
-  return {
-    venues: state.venue.venues
-  };
+	return {
+		venues: state.venue.venues
+	};
 };
 
 var dispatchToProps = function dispatchToProps(dispatch) {
-  return {
-    venuesReceived: function venuesReceived(venues) {
-      return dispatch(_actions2.default.venuesReceived(venues));
-    }
-  };
+	return {
+		venuesReceived: function venuesReceived(venues) {
+			return dispatch(_actions2.default.venuesReceived(venues));
+		}
+	};
 };
 
 exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Nav);
