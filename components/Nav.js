@@ -37,7 +37,8 @@ class Nav extends Component {
 			v: '20140806',
 			near: this.state.zipCode,   //zip code, new york, chicago
 			client_id: 'VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD',
-			client_secret: 'UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ'
+			client_secret: 'UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ',
+			query: 'coffee'
 		}
 
     	superagent
