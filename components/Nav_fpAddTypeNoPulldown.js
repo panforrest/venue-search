@@ -22,8 +22,10 @@ class Nav extends Component {
     constructor(){
     	super()
     	this.state = {
+    		updatedSearch: {
 	            zipCode: '',
-	            filter: 'food'     // zip: {}	        
+	            type: ''     // zip: {}
+	        }
     	}
     }
 
@@ -36,10 +38,10 @@ class Nav extends Component {
 
 		const params = {
 			v: '20140806',
-			near: this.state.zipCode,   //zip code, new york, chicago
+			near: this.state.updatedSearch.zipCode,   //zip code, new york, chicago
 			client_id: 'VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD',
 			client_secret: 'UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ',
-			query: this.state.filter     //query: 'coffee'
+			query: this.state.updatedSearch.type     //query: 'coffee'
 		}
 
     	superagent
@@ -53,23 +55,16 @@ class Nav extends Component {
     	})
     }
 
-    changeFilter(event){
-    	console.log('changeFilter: ' + event.target.value)
-    	this.setState({
-    		filter: event.target.value
-    	})
-    }
-
-    updateZipcode(event){
-    	var updated = Object.assign({}, this.state.zipCode)  //ONLY MISTAKE: Object.assign({}, this.state)
-        // updated[event.target.id] = event.target.value
+    update(event){
+    	var updated = Object.assign({}, this.state.updatedSearch)  //ONLY MISTAKE: Object.assign({}, this.state)
+        updated[event.target.id] = event.target.value
         // var zip = updated
 
         // console.log(event.target.value)
         this.setState({
-            zipCode: event.target.value   
+            updatedSearch: updated   
         }) 
-        console.log('update: '+JSON.stringify(this.state.zipCode))       
+        console.log('update: '+JSON.stringify(this.state.updatedSearch))       
     }
 
 	render(){
@@ -81,12 +76,8 @@ class Nav extends Component {
 	                <form className="navbar-form navbar-left" role="search">
 					  <div className="form-group">
 					    
-					    <input onChange={this.updateZipcode.bind(this)} id="zipCode" className="form-control" type="text" placeholder="Zip code" />
-					    <select id="filter" onChange={this.changeFilter.bind(this)} style={{marginLeft:2}} className="form-control">
-					      <option >Food</option>
-					      <option>Coffee</option>
-					      <option>Clothing</option>
-					    </select>
+					    <input onChange={this.update.bind(this)} id="zipCode" className="form-control" type="text" placeholder="Zip code" />
+					    <input onChange={this.update.bind(this)} id="type" className="form-control" type="text" placeholder="Type" />
 					  </div>
 					  <button style={{marginLeft:2}} onClick={this.searchVenues.bind(this)} className="btn btn-default">Search</button>						  
 					</form>
